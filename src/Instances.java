@@ -15,6 +15,7 @@ public class Instances {
 
         reader = new BufferedReader(new FileReader(filename));
         String line = reader.readLine();
+        line = line.strip();
         ArrayList<Integer> pointCount = new ArrayList<>();
         pointCount.add(Integer.parseInt(line));
         points.add(pointCount);
@@ -24,6 +25,7 @@ public class Instances {
             lineList = new ArrayList<>();
             String[] split = line.split(" ", 3);
             for (String i: split) {
+                i = i.strip();
                 lineList.add(Integer.parseInt(i));
             }
             points.add(lineList);

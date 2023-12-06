@@ -21,6 +21,7 @@ public class Greedy {
         pointCount = points.size();
         path = new ArrayList<>();
 
+        greedyPathGen(startPoint);
         return path;
     }
 
