@@ -10,6 +10,7 @@ public class Main {
         System.out.println("Do you want to read from file or generate a random instance?");
         System.out.println("\t1. File");
         System.out.println("\t2. Random");
+        System.out.print(">");
 
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
