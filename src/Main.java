@@ -44,7 +44,7 @@ public class Main {
         int pointCount = points.getFirst().getFirst();
         points.removeFirst();
 
-        final int POPULATION_SIZE = 10000;
+        final int POPULATION_SIZE = 100000;
         final int s = POPULATION_SIZE/2;
         int generation = 1;
         ArrayList<Individual> population = new ArrayList<>();
@@ -94,6 +94,7 @@ public class Main {
                 x.copy(population.get(index));
                 x.mutate();
                 population.remove(index);
+                best--;
                 newPopulation.add(x);
             }
 

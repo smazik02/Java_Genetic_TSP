@@ -71,33 +71,32 @@ public class Individual {
 
     public void mutate() {
         Random rand = new Random();
-        while (true) {
-            int geneA = rand.nextInt(1, this.order.size()-2);
-            int geneB = rand.nextInt(1, this.order.size()-2);
-            if (geneA != geneB) {
-                if (geneA > geneB) {
-                    int tmp = geneA;
-                    geneA = geneB;
-                    geneB = tmp;
-                }
-//                System.out.println("Start swap genes " + geneA + " and " + geneB);
-//                System.out.println("Order before swap: " + this.order);
-//                System.out.println("Distance before swap: " + this.distance);
-//                System.out.println("Actual: " + this.calDistance());
-                double oldDistance = this.distanceBetweenGenes(geneA-1, geneB+1);
-                ArrayList<Integer> tmp = this.order.get(geneA);
-                this.order.set(geneA, this.order.get(geneB));
-                this.order.set(geneB, tmp);
-                double newDistance = this.distanceBetweenGenes(geneA-1, geneB+1);
-                double change = newDistance - oldDistance;
-//                System.out.println("OldDist: " + oldDistance + ", newDist: " + newDistance + ", change: " + change);
-                this.distance += change;
-//                System.out.println("Order after swap: " + this.order);
-//                System.out.println("Distance after swap: " + this.distance);
-//                System.out.println("Actual: " + this.calDistance() + "\n");
-                return;
-            }
+        int geneA = rand.nextInt(1, this.order.size()-2);
+        int geneB = rand.nextInt(1, this.order.size()-2);
+        while (geneA == geneB) {
+            geneB = rand.nextInt(1, this.order.size()-2);
         }
+        if (geneA > geneB) {
+            int tmp = geneA;
+            geneA = geneB;
+            geneB = tmp;
+        }
+//        System.out.println("Start swap genes " + geneA + " and " + geneB);
+//        System.out.println("Order before swap: " + this.order);
+//        System.out.println("Distance before swap: " + this.distance);
+//        System.out.println("Actual: " + this.calDistance());
+//        double oldDistance = this.distanceBetweenGenes(geneA-1, geneB+1);
+        ArrayList<Integer> tmp = this.order.get(geneA);
+        this.order.set(geneA, this.order.get(geneB));
+        this.order.set(geneB, tmp);
+//        double newDistance = this.distanceBetweenGenes(geneA-1, geneB+1);
+//        double change = newDistance - oldDistance;
+//        System.out.println("OldDist: " + oldDistance + ", newDist: " + newDistance + ", change: " + change);
+//        this.setDistance(this.distance + change);
+//        System.out.println("Order after swap: " + this.order);
+//        System.out.println("Distance after swap: " + this.distance);
+//        System.out.println("Actual: " + this.calDistance() + "\n");
+        this.distance = this.calDistance();
     }
 
     public static ArrayList<ArrayList<Integer>> greedyOrder(ArrayList<ArrayList<Integer>> points, int start) {
