@@ -79,7 +79,7 @@ public class Greedy {
         if (!contains)
             visited.add(minPoint);
         totalDistance += minDistance;
-        System.out.println("Distance to " + minPoint.get(0) + ": " + Math.round(minDistance));
+        System.out.println("Distance to " + minPoint.getFirst() + ": " + Math.round(minDistance));
         fromPointToPoint(minPoint);
     }
 
@@ -118,14 +118,14 @@ public class Greedy {
                 return;
         }
 
-        pointCount = points.get(0).get(0);
-        points.remove(0);
-        startPoint = points.get(0);
+        pointCount = points.getFirst().getFirst();
+        points.removeFirst();
+        startPoint = points.getFirst();
         visited = new HashSet<>();
         visited.add(startPoint);
         totalDistance = 0;
 
-        fromPointToPoint(points.get(0));
+        fromPointToPoint(points.getFirst());
         System.out.println("Total distance: " + Math.round(totalDistance));
     }
 

@@ -53,7 +53,7 @@ public class Instances {
             point.add(rand.nextInt(boardY-1));
             if (!pointSet.contains(point)) {
                 pointSet.add(point);
-                point.add(0, i);
+                point.addFirst(i);
                 points.add(point);
                 i+=1;
             }

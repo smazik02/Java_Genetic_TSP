@@ -41,8 +41,8 @@ public class Main {
                 return;
         }
 
-        int pointCount = points.get(0).get(0);
-        points.remove(0);
+        int pointCount = points.getFirst().getFirst();
+        points.removeFirst();
 
         final int POPULATION_SIZE = 10000;
         final int s = POPULATION_SIZE/2;
@@ -66,19 +66,23 @@ public class Main {
 
         population.sort(Comparator.comparingDouble(Individual::getDistance));
 
-        System.out.println("Generation " + generation + ", distance " + population.get(0).getDistance());
+        System.out.println("Generation " + generation + ", distance " + population.getFirst().getDistance());
 
-//        for (int i = 0; i < 1000; i++) {
-        while (true) {
+        for (int i = 0; i < 1000; i++) {
+//        while (true) {
             generation++;
             int best = POPULATION_SIZE/10;
             ArrayList<Individual> newPopulation = new ArrayList<>(population.subList(0, best));
 
-            population.subList(0,s).clear();
+            population.subList(s, population.size()).clear();
+
             int mate = (80*POPULATION_SIZE)/100;
             for (int j = 0; j < mate; j++) {
                 Individual parent1 = population.get(rand.nextInt(best));
                 Individual parent2 = population.get(rand.nextInt(best));
+                while (parent1 == parent2) {
+                    parent2 = population.get(rand.nextInt(best));
+                }
                 ArrayList<ArrayList<Integer>> child = Individual.mate(parent1.getOrder(), parent2.getOrder());
                 newPopulation.add(new Individual(child));
             }
@@ -96,7 +100,7 @@ public class Main {
             population = newPopulation;
             population.sort(Comparator.comparingDouble(Individual::getDistance));
 
-            System.out.println("Generation " + generation + ", distance " + population.get(0).getDistance());
+            System.out.println("Generation " + generation + ", distance " + population.getFirst().getDistance());
         }
     }
 

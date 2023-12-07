@@ -18,7 +18,7 @@ public class Individual {
     private double calDistance() {
         double totalDistance = 0;
         double dist;
-        ArrayList<Integer> startPoint = this.order.get(0);
+        ArrayList<Integer> startPoint = this.order.getFirst();
         for (ArrayList<Integer> endPoint: this.order.subList(1, this.order.size())) {
             dist = Math.sqrt(Math.pow(endPoint.get(1)-startPoint.get(1), 2) +
                                  Math.pow(endPoint.get(2)-startPoint.get(2), 2));
@@ -64,7 +64,7 @@ public class Individual {
         res.addAll(remaining.subList(start, remaining.size()));
 
         if (res.size() != parent1.size()) {
-            res.add(res.get(0));
+            res.add(res.getFirst());
         }
         return res;
     }
@@ -107,7 +107,7 @@ public class Individual {
     public static ArrayList<ArrayList<Integer>> randomOrder(ArrayList<ArrayList<Integer>> points) {
         ArrayList<ArrayList<Integer>> ord = new ArrayList<>(points);
         Collections.shuffle(ord);
-        ord.add(ord.get(0));
+        ord.add(ord.getFirst());
         return ord;
     }
 
