@@ -33,20 +33,20 @@ public class Greedy {
             return;
         }
         double minDistance = Double.POSITIVE_INFINITY;
-        for (ArrayList<Integer> point: points) {
+        for (ArrayList<Integer> point : points) {
             if (point == curPoint)
                 continue;
             if (visited.contains(point))
                 continue;
-            double distance = Math.sqrt(Math.pow(point.get(1)-curPoint.get(1), 2) +
-                                        Math.pow(point.get(2)-curPoint.get(2), 2));
+            double distance = Math.sqrt(Math.pow(point.get(1) - curPoint.get(1), 2) +
+                    Math.pow(point.get(2) - curPoint.get(2), 2));
             if (distance < minDistance) {
                 minDistance = distance;
                 minPoint = point;
             }
         }
         boolean contains = visited.contains(minPoint);
-        if(!contains)
+        if (!contains)
             visited.add(minPoint);
         greedyPathGen(minPoint);
     }
@@ -55,21 +55,21 @@ public class Greedy {
         ArrayList<Integer> minPoint = curPoint;
         System.out.println(curPoint);
         if (visited.size() == pointCount) {
-            double dist = Math.sqrt(Math.pow(startPoint.get(1)-curPoint.get(1), 2) +
-                                    Math.pow(startPoint.get(2)-curPoint.get(2), 2));
+            double dist = Math.sqrt(Math.pow(startPoint.get(1) - curPoint.get(1), 2) +
+                    Math.pow(startPoint.get(2) - curPoint.get(2), 2));
             totalDistance += dist;
             System.out.println("Distance to " + startPoint.get(0) + ": " + Math.round(dist));
             System.out.println(startPoint);
             return;
         }
         double minDistance = Double.POSITIVE_INFINITY;
-        for (ArrayList<Integer> point: points) {
+        for (ArrayList<Integer> point : points) {
             if (point == curPoint)
                 continue;
             if (visited.contains(point))
                 continue;
-            double distance = Math.sqrt(Math.pow(point.get(1)-curPoint.get(1), 2) +
-                                        Math.pow(point.get(2)-curPoint.get(2), 2));
+            double distance = Math.sqrt(Math.pow(point.get(1) - curPoint.get(1), 2) +
+                    Math.pow(point.get(2) - curPoint.get(2), 2));
             if (distance < minDistance) {
                 minDistance = distance;
                 minPoint = point;
@@ -97,7 +97,7 @@ public class Greedy {
                 System.out.print("Give a filename >");
                 String fileName = scanner.nextLine();
                 scanner.close();
-                points = Instances.readFromFile("tests/"+fileName+".txt");
+                points = Instances.readFromFile("tests/" + fileName + ".txt");
                 break;
             case 2:
                 System.out.print("Give an instance size >");

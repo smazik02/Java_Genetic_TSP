@@ -24,7 +24,7 @@ public class Instances {
         while (line != null) {
             lineList = new ArrayList<>();
             String[] split = line.split(" ", 3);
-            for (String i: split) {
+            for (String i : split) {
                 i = i.strip();
                 lineList.add(Integer.parseInt(i));
             }
@@ -47,15 +47,15 @@ public class Instances {
         pointCount.add(instanceSize);
         points.add(pointCount);
 
-        while (points.size() != instanceSize+1) {
+        while (points.size() != instanceSize + 1) {
             point = new ArrayList<>();
-            point.add(rand.nextInt(boardX-1));
-            point.add(rand.nextInt(boardY-1));
+            point.add(rand.nextInt(boardX - 1));
+            point.add(rand.nextInt(boardY - 1));
             if (!pointSet.contains(point)) {
                 pointSet.add(point);
                 point.addFirst(i);
                 points.add(point);
-                i+=1;
+                i += 1;
             }
         }
 
