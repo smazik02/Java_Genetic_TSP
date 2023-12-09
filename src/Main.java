@@ -8,8 +8,8 @@ public class Main {
         ArrayList<ArrayList<Integer>> points;
 
         System.out.println("Do you want to read from file or generate a random instance?");
-        System.out.println("\t1. File");
-        System.out.println("\t2. Random");
+        System.out.println("1. File");
+        System.out.println("2. Random");
         System.out.print(">");
 
         Scanner scanner = new Scanner(System.in);
@@ -17,13 +17,12 @@ public class Main {
         scanner.nextLine();
         switch (choice) {
             case 1:
-                System.out.print("Give a filename >");
+                System.out.print("\nGive a filename >");
                 String fileName = scanner.nextLine();
-                scanner.close();
                 points = Instances.readFromFile("tests/" + fileName + ".txt");
                 break;
             case 2:
-                System.out.print("Give an instance size >");
+                System.out.print("\nGive an instance size >");
                 int instanceSize = scanner.nextInt();
                 scanner.nextLine();
                 System.out.print("Give board's max X coordinates >");
@@ -32,41 +31,57 @@ public class Main {
                 System.out.print("Give board's max Y coordinates >");
                 int boardY = scanner.nextInt();
                 scanner.nextLine();
-                scanner.close();
                 points = Instances.randomInstance(instanceSize, boardX, boardY);
                 break;
             default:
                 scanner.close();
-                System.out.println("Wrong number, choose between 1 and 2");
+                System.out.println("\nWrong number, choose between 1 and 2");
                 return;
         }
 
         int pointCount = points.getFirst().getFirst();
         points.removeFirst();
 
-        final int POPULATION_SIZE = 100000;
+        System.out.print("\nInput population size >");
+        final int POPULATION_SIZE = scanner.nextInt();
         final int s = POPULATION_SIZE / 2;
+        scanner.nextLine();
         int generation = 1;
         ArrayList<Individual> population = new ArrayList<>();
 
-        for (int i = 0; i < pointCount; i++) {
-            Individual gnome = new Individual(Individual.greedyOrder(points, i));
-            population.add(gnome);
+        System.out.println("\nDo you want to input greedy algorithm data into the population, or do you want all instances to be random?");
+        System.out.println("1. Greedy");
+        System.out.println("2. Random");
+        System.out.print(">");
+        choice = scanner.nextInt();
+        scanner.nextLine();
+        switch (choice) {
+            case 1:
+                for (int i = 0; i < pointCount; i++) {
+                    Individual gnome = new Individual(Individual.greedyOrder(points, i));
+                    population.add(gnome);
+                }
+                for (int i = 0; i < POPULATION_SIZE - pointCount; i++) {
+                    Individual gnome = new Individual(Individual.randomOrder(points));
+                    population.add(gnome);
+                }
+                break;
+            case 2:
+                for (int i=0; i <= POPULATION_SIZE; i++) {
+                    Individual gnome = new Individual(Individual.randomOrder(points));
+                    population.add(gnome);
+                }
+                break;
+            default:
+                scanner.close();
+                System.out.println("Wrong number, choose between 1 and 2");
+                return;
         }
-
-        for (int i = 0; i < POPULATION_SIZE - pointCount; i++) {
-            Individual gnome = new Individual(Individual.randomOrder(points));
-            population.add(gnome);
-        }
-
-//        for (int i=0; i <= POPULATION_SIZE; i++) {
-//            Individual gnome = new Individual(Individual.randomOrder(points));
-//            population.add(gnome);
-//        }
+        scanner.close();
 
         population.sort(Comparator.comparingDouble(Individual::getDistance));
 
-        System.out.println("Generation " + generation + ", distance " + population.getFirst().getDistance());
+        System.out.println("\nGeneration " + generation + ", distance " + population.getFirst().getDistance());
 
         for (int i = 0; i < 1000; i++) {
 //        while (true) {
