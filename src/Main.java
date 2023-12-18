@@ -6,6 +6,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Random rand = new Random();
         ArrayList<ArrayList<Integer>> points;
+        ArrayList<Double> bestDistances;
 
         System.out.println("Do you want to read from file or generate a random instance?");
         System.out.println("1. File");
@@ -81,9 +82,13 @@ public class Main {
 
         population.sort(Comparator.comparingDouble(Individual::getDistance));
 
+        bestDistances = new ArrayList<>(10);
+        bestDistances.add(population.getFirst().getDistance());
+        int mutateSize = 1;
+
         System.out.println("\nGeneration " + generation + ", distance " + population.getFirst().getDistance());
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100; i++) {
 //        while (true) {
             generation++;
             int best = POPULATION_SIZE / 10;
@@ -107,7 +112,7 @@ public class Main {
                 Individual x = new Individual();
                 int index = rand.nextInt(best);
                 x.copy(population.get(index));
-                x.mutate();
+                x.mutate(mutateSize);
                 population.remove(index);
                 best--;
                 newPopulation.add(x);
@@ -116,8 +121,24 @@ public class Main {
             population = newPopulation;
             population.sort(Comparator.comparingDouble(Individual::getDistance));
 
+            bestDistances.add(population.getFirst().getDistance());
+            Collections.sort(bestDistances);
+            if (bestDistances.size() > 10) {
+                bestDistances.subList(0, 10).clear();
+                boolean equal = new HashSet<Double>(bestDistances).size() <= 1;
+                if (equal && mutateSize <= 5) {
+                    mutateSize++;
+                }
+            }
+
             System.out.println("Generation " + generation + ", distance " + population.getFirst().getDistance());
         }
+
+        ArrayList<Integer> finalSolution = new ArrayList<>();
+        for (ArrayList<Integer> point: population.getFirst().getOrder())
+            finalSolution.add(point.get(0));
+        System.out.println("\nFinal solution: " + finalSolution);
+
     }
 
 }
