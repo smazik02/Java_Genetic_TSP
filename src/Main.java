@@ -48,7 +48,7 @@ public class Main {
         final int s = POPULATION_SIZE / 2;
         scanner.nextLine();
         int generation = 1;
-        ArrayList<Individual> population = new ArrayList<>();
+        var population = new ArrayList<Individual>();
 
         System.out.println("\nDo you want to input greedy algorithm data into the population, or do you want all instances to be random?");
         System.out.println("1. Greedy");
@@ -82,7 +82,7 @@ public class Main {
 
         population.sort(Comparator.comparingDouble(Individual::getDistance));
 
-        bestDistances = new ArrayList<>();
+        bestDistances = new ArrayList<>(10);
         bestDistances.add(population.getFirst().getDistance());
         int mutateSize = 0;
 
@@ -91,11 +91,12 @@ public class Main {
         for (int i = 0; i <= 1000; i++) {
 //        while (true) {
             generation++;
-            ArrayList<Individual> newPopulation = new ArrayList<>(population);
+            int best = POPULATION_SIZE / 5;
+            var newPopulation = new ArrayList<>(population.subList(0, best));
 
             population.subList(s, population.size()).clear();
 
-            int mate = ((80 - mutateSize) * POPULATION_SIZE) / 100;
+            int mate = ((89 - mutateSize) * POPULATION_SIZE) / 100;
             for (int j = 0; j < mate; j++) {
                 Individual parent1 = population.get(rand.nextInt(population.size()));
                 Individual parent2 = population.get(rand.nextInt(population.size()));
@@ -106,26 +107,29 @@ public class Main {
                 newPopulation.add(new Individual(child));
             }
 
-            int mut = ((10 + mutateSize) * POPULATION_SIZE) / 100;
+            var mutatedIndexes = new HashSet<>();
+            int mut = ((1 + mutateSize) * POPULATION_SIZE) / 100;
             for (int j = 0; j < mut; j++) {
                 Individual x = new Individual();
-                int index = rand.nextInt(population.size());
+                int index = rand.nextInt(1, population.size());
+                while (mutatedIndexes.contains(index)) {
+                    index = rand.nextInt(1, population.size());
+                }
+                mutatedIndexes.add(index);
                 x.copy(population.get(index));
                 x.mutate();
-                population.remove(index);
                 newPopulation.add(x);
             }
 
             population = newPopulation;
             population.sort(Comparator.comparingDouble(Individual::getDistance));
-            population.subList(POPULATION_SIZE, population.size()).clear();
 
             bestDistances.add(population.getFirst().getDistance());
             if (bestDistances.size() >= 10) {
                 boolean equal = new HashSet<>(bestDistances).size() <= 1;
                 if (equal) {
-                    bestDistances.subList(0, bestDistances.size()-1).clear();
-                    mutateSize = Math.min(mutateSize+10, 40);
+                    bestDistances.subList(0, bestDistances.size() - 1).clear();
+                    mutateSize = Math.min(mutateSize + 1, 9);
                 } else {
                     bestDistances.removeFirst();
                     mutateSize = 0;
@@ -135,8 +139,8 @@ public class Main {
             System.out.println("Generation " + generation + ", distance " + population.getFirst().getDistance());
         }
 
-        ArrayList<Integer> finalSolution = new ArrayList<>();
-        for (ArrayList<Integer> point : population.getFirst().getOrder())
+        var finalSolution = new ArrayList<Integer>();
+        for (var point : population.getFirst().getOrder())
             finalSolution.add(point.getFirst());
         System.out.println("\nFinal solution: " + finalSolution);
 

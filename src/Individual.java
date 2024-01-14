@@ -42,23 +42,21 @@ public class Individual {
     }
 
     public static ArrayList<ArrayList<Integer>> mate(ArrayList<ArrayList<Integer>> parent1, ArrayList<ArrayList<Integer>> parent2) {
-        ArrayList<ArrayList<Integer>> remaining;
-        ArrayList<ArrayList<Integer>> res;
         Random rand = new Random();
         int geneA = rand.nextInt(1, parent1.size() - 2);
         int geneB = rand.nextInt(1, parent2.size() - 2);
         int start = Math.min(geneA, geneB);
         int end = Math.max(start + 1, Math.max(geneA, geneB));
 
-        Set<ArrayList<Integer>> tmp = new LinkedHashSet<>(parent1.subList(start, end));
-        remaining = new ArrayList<>();
-        for (ArrayList<Integer> x : parent2) {
+        var tmp = new LinkedHashSet<>(parent1.subList(start, end));
+        var remaining = new ArrayList<ArrayList<Integer>>();
+        for (var x : parent2) {
             boolean contains = tmp.contains(x);
             if (!contains) {
                 remaining.add(x);
             }
         }
-        res = new ArrayList<>();
+        var res = new ArrayList<ArrayList<Integer>>();
         res.addAll(remaining.subList(0, start));
         res.addAll(tmp);
         res.addAll(remaining.subList(start, remaining.size()));
@@ -81,7 +79,7 @@ public class Individual {
             geneA = geneB;
             geneB = tmp;
         }
-        ArrayList<Integer> tmp = this.order.get(geneA);
+        var tmp = this.order.get(geneA);
         this.order.set(geneA, this.order.get(geneB));
         this.order.set(geneB, tmp);
         this.distance = this.calDistance();
@@ -92,7 +90,7 @@ public class Individual {
     }
 
     public static ArrayList<ArrayList<Integer>> randomOrder(ArrayList<ArrayList<Integer>> points) {
-        ArrayList<ArrayList<Integer>> ord = new ArrayList<>(points);
+        var ord = new ArrayList<>(points);
         Collections.shuffle(ord);
         ord.add(ord.getFirst());
         return ord;

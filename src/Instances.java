@@ -4,19 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
+
 
 public class Instances {
 
     public static ArrayList<ArrayList<Integer>> readFromFile(String filename) throws IOException {
-        ArrayList<ArrayList<Integer>> points = new ArrayList<>();
+        var points = new ArrayList<ArrayList<Integer>>();
         ArrayList<Integer> lineList;
         BufferedReader reader;
 
         reader = new BufferedReader(new FileReader(filename));
         String line = reader.readLine();
         line = line.strip();
-        ArrayList<Integer> pointCount = new ArrayList<>();
+        var pointCount = new ArrayList<Integer>();
         pointCount.add(Integer.parseInt(line));
         points.add(pointCount);
         line = reader.readLine();
@@ -37,13 +37,13 @@ public class Instances {
     }
 
     public static ArrayList<ArrayList<Integer>> randomInstance(int instanceSize, int boardX, int boardY) {
-        ArrayList<ArrayList<Integer>> points = new ArrayList<>();
-        Set<ArrayList<Integer>> pointSet = new HashSet<>();
+        var points = new ArrayList<ArrayList<Integer>>();
+        var pointSet = new HashSet<>();
         ArrayList<Integer> point;
         Random rand = new Random();
         int i = 1;
 
-        ArrayList<Integer> pointCount = new ArrayList<>();
+        var pointCount = new ArrayList<Integer>();
         pointCount.add(instanceSize);
         points.add(pointCount);
 

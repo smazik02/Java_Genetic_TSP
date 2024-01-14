@@ -26,14 +26,14 @@ public class Greedy {
     }
 
     public static void greedyPathGen(ArrayList<Integer> curPoint) {
-        ArrayList<Integer> minPoint = curPoint;
+        var minPoint = curPoint;
         path.add(curPoint);
         if (visited.size() == pointCount) {
             path.add(startPoint);
             return;
         }
         double minDistance = Double.POSITIVE_INFINITY;
-        for (ArrayList<Integer> point : points) {
+        for (var point : points) {
             if (point == curPoint)
                 continue;
             if (visited.contains(point))
@@ -52,7 +52,7 @@ public class Greedy {
     }
 
     public static void fromPointToPoint(ArrayList<Integer> curPoint) {
-        ArrayList<Integer> minPoint = curPoint;
+        var minPoint = curPoint;
         System.out.println(curPoint);
         if (visited.size() == pointCount) {
             double dist = Math.sqrt(Math.pow(startPoint.get(1) - curPoint.get(1), 2) +
@@ -63,7 +63,7 @@ public class Greedy {
             return;
         }
         double minDistance = Double.POSITIVE_INFINITY;
-        for (ArrayList<Integer> point : points) {
+        for (var point : points) {
             if (point == curPoint)
                 continue;
             if (visited.contains(point))
