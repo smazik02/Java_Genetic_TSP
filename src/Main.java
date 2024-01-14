@@ -82,26 +82,25 @@ public class Main {
 
         population.sort(Comparator.comparingDouble(Individual::getDistance));
 
-        bestDistances = new ArrayList<>(10);
+        bestDistances = new ArrayList<>();
         bestDistances.add(population.getFirst().getDistance());
         int mutateSize = 0;
 
         System.out.println("\nGeneration " + generation + ", distance " + population.getFirst().getDistance());
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i <= 1000; i++) {
 //        while (true) {
             generation++;
-            int best = POPULATION_SIZE / 10;
             ArrayList<Individual> newPopulation = new ArrayList<>(population);
 
             population.subList(s, population.size()).clear();
 
             int mate = ((80 - mutateSize) * POPULATION_SIZE) / 100;
             for (int j = 0; j < mate; j++) {
-                Individual parent1 = population.get(rand.nextInt(best));
-                Individual parent2 = population.get(rand.nextInt(best));
+                Individual parent1 = population.get(rand.nextInt(population.size()));
+                Individual parent2 = population.get(rand.nextInt(population.size()));
                 while (parent1 == parent2) {
-                    parent2 = population.get(rand.nextInt(best));
+                    parent2 = population.get(rand.nextInt(population.size()));
                 }
                 ArrayList<ArrayList<Integer>> child = Individual.mate(parent1.getOrder(), parent2.getOrder());
                 newPopulation.add(new Individual(child));
@@ -110,11 +109,10 @@ public class Main {
             int mut = ((10 + mutateSize) * POPULATION_SIZE) / 100;
             for (int j = 0; j < mut; j++) {
                 Individual x = new Individual();
-                int index = rand.nextInt(best);
+                int index = rand.nextInt(population.size());
                 x.copy(population.get(index));
                 x.mutate();
                 population.remove(index);
-                best--;
                 newPopulation.add(x);
             }
 
@@ -123,12 +121,14 @@ public class Main {
             population.subList(POPULATION_SIZE, population.size()).clear();
 
             bestDistances.add(population.getFirst().getDistance());
-            Collections.sort(bestDistances);
-            if (bestDistances.size() > 10) {
-                bestDistances.subList(0, 10).clear();
+            if (bestDistances.size() >= 10) {
                 boolean equal = new HashSet<>(bestDistances).size() <= 1;
-                if (equal && mutateSize <= 80) {
-                    mutateSize += 10;
+                if (equal) {
+                    bestDistances.subList(0, bestDistances.size()-1).clear();
+                    mutateSize = Math.min(mutateSize+10, 40);
+                } else {
+                    bestDistances.removeFirst();
+                    mutateSize = 0;
                 }
             }
 
