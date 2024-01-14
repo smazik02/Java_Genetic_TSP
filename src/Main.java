@@ -125,7 +125,7 @@ public class Main {
             Collections.sort(bestDistances);
             if (bestDistances.size() > 10) {
                 bestDistances.subList(0, 10).clear();
-                boolean equal = new HashSet<Double>(bestDistances).size() <= 1;
+                boolean equal = new HashSet<>(bestDistances).size() <= 1;
                 if (equal && mutateSize <= 5) {
                     mutateSize++;
                 }
@@ -136,7 +136,7 @@ public class Main {
 
         ArrayList<Integer> finalSolution = new ArrayList<>();
         for (ArrayList<Integer> point: population.getFirst().getOrder())
-            finalSolution.add(point.get(0));
+            finalSolution.add(point.getFirst());
         System.out.println("\nFinal solution: " + finalSolution);
 
     }
