@@ -69,23 +69,21 @@ public class Individual {
         return res;
     }
 
-    public void mutate(int mutatesize) {
+    public void mutate() {
         Random rand = new Random();
-        for (int i = 0; i < mutatesize; i++) {
-            int geneA = rand.nextInt(1, this.order.size() - 2);
-            int geneB = rand.nextInt(1, this.order.size() - 2);
-            while (geneA == geneB) {
-                geneB = rand.nextInt(1, this.order.size() - 2);
-            }
-            if (geneA > geneB) {
-                int tmp = geneA;
-                geneA = geneB;
-                geneB = tmp;
-            }
-            ArrayList<Integer> tmp = this.order.get(geneA);
-            this.order.set(geneA, this.order.get(geneB));
-            this.order.set(geneB, tmp);
+        int geneA = rand.nextInt(1, this.order.size() - 2);
+        int geneB = rand.nextInt(1, this.order.size() - 2);
+        while (geneA == geneB) {
+            geneB = rand.nextInt(1, this.order.size() - 2);
         }
+        if (geneA > geneB) {
+            int tmp = geneA;
+            geneA = geneB;
+            geneB = tmp;
+        }
+        ArrayList<Integer> tmp = this.order.get(geneA);
+        this.order.set(geneA, this.order.get(geneB));
+        this.order.set(geneB, tmp);
         this.distance = this.calDistance();
     }
 
