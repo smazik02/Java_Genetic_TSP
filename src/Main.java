@@ -125,7 +125,7 @@ public class Main {
             population.sort(Comparator.comparingDouble(Individual::getDistance));
 
             bestDistances.add(population.getFirst().getDistance());
-            if (bestDistances.size() >= 10) {
+            if (bestDistances.size() > 10) {
                 boolean equal = new HashSet<>(bestDistances).size() <= 1;
                 if (equal) {
                     bestDistances.subList(0, bestDistances.size() - 1).clear();
