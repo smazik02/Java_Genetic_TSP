@@ -78,20 +78,25 @@ public class Main {
                 System.out.println("Wrong number, choose between 1 and 2");
                 return;
         }
+
+        System.out.print("\nHow long do you want the algorithm to run? (minutes) >");
+        long runTime = scanner.nextLong();
+        scanner.nextLine();
         scanner.close();
 
         population.sort(Comparator.comparingDouble(Individual::getDistance));
 
-        bestDistances = new ArrayList<>(10);
+        bestDistances = new ArrayList<>();
         bestDistances.add(population.getFirst().getDistance());
         int mutateSize = 0;
 
         System.out.println("\nGeneration " + generation + ", distance " + population.getFirst().getDistance());
 
-        for (int i = 0; i <= 1000; i++) {
-//        while (true) {
+        long start = System.currentTimeMillis();
+        long end = start + 1000 * 60 * runTime;
+        while (System.currentTimeMillis() < end) {
             generation++;
-            int best = POPULATION_SIZE / 5;
+            int best = POPULATION_SIZE / 10;
             var newPopulation = new ArrayList<>(population.subList(0, best));
 
             population.subList(s, population.size()).clear();
@@ -103,7 +108,7 @@ public class Main {
                 while (parent1 == parent2) {
                     parent2 = population.get(rand.nextInt(population.size()));
                 }
-                ArrayList<ArrayList<Integer>> child = Individual.mate(parent1.getOrder(), parent2.getOrder());
+                var child = Individual.mate(parent1.getOrder(), parent2.getOrder());
                 newPopulation.add(new Individual(child));
             }
 
@@ -118,6 +123,7 @@ public class Main {
                 mutatedIndexes.add(index);
                 x.copy(population.get(index));
                 x.mutate();
+                population.remove(index);
                 newPopulation.add(x);
             }
 
@@ -129,7 +135,7 @@ public class Main {
                 boolean equal = new HashSet<>(bestDistances).size() <= 1;
                 if (equal) {
                     bestDistances.subList(0, bestDistances.size() - 1).clear();
-                    mutateSize = Math.min(mutateSize + 1, 9);
+                    mutateSize = Math.min(mutateSize + 1, 19);
                 } else {
                     bestDistances.removeFirst();
                     mutateSize = 0;
