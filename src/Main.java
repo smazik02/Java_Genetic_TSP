@@ -116,9 +116,9 @@ public class Main {
             int mut = ((1 + mutateSize) * POPULATION_SIZE) / 100;
             for (int j = 0; j < mut; j++) {
                 Individual x = new Individual();
-                int index = rand.nextInt(1, population.size());
+                int index = rand.nextInt(population.size());
                 while (mutatedIndexes.contains(index)) {
-                    index = rand.nextInt(1, population.size());
+                    index = rand.nextInt(population.size());
                 }
                 mutatedIndexes.add(index);
                 x.copy(population.get(index));
@@ -131,7 +131,7 @@ public class Main {
             population.sort(Comparator.comparingDouble(Individual::getDistance));
 
             bestDistances.add(population.getFirst().getDistance());
-            if (bestDistances.size() >= 10) {
+            if (bestDistances.size() > 10) {
                 boolean equal = new HashSet<>(bestDistances).size() <= 1;
                 if (equal) {
                     bestDistances.subList(0, bestDistances.size() - 1).clear();
