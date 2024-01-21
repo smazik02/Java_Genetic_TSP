@@ -18,8 +18,8 @@ public class Individual {
     private double calDistance() {
         double totalDistance = 0;
         double dist;
-        ArrayList<Integer> startPoint = this.order.getFirst();
-        for (ArrayList<Integer> endPoint : this.order.subList(1, this.order.size())) {
+        var startPoint = order.getFirst();
+        for (var endPoint : order.subList(1, order.size())) {
             dist = Math.sqrt(Math.pow(endPoint.get(1) - startPoint.get(1), 2) +
                     Math.pow(endPoint.get(2) - startPoint.get(2), 2));
             totalDistance += dist;
@@ -31,8 +31,8 @@ public class Individual {
     public double distanceBetweenGenes(int geneA, int geneB) {
         double totalDistance = 0;
         double dist;
-        ArrayList<Integer> startPoint = this.order.get(geneA);
-        for (ArrayList<Integer> endPoint : this.order.subList(geneA + 1, geneB + 1)) {
+        var startPoint = order.get(geneA);
+        for (var endPoint : order.subList(geneA + 1, geneB + 1)) {
             dist = Math.sqrt(Math.pow(endPoint.get(1) - startPoint.get(1), 2) +
                     Math.pow(endPoint.get(2) - startPoint.get(2), 2));
             totalDistance += dist;
@@ -50,9 +50,11 @@ public class Individual {
 
         var tmp = new LinkedHashSet<>(parent1.subList(start, end));
         var remaining = new ArrayList<ArrayList<Integer>>();
+        if (tmp.getFirst() == parent2.getFirst())
+            start++;
+        tmp.remove(parent2.getFirst());
         for (var x : parent2) {
-            boolean contains = tmp.contains(x);
-            if (!contains) {
+            if (!tmp.contains(x)) {
                 remaining.add(x);
             }
         }
@@ -61,28 +63,23 @@ public class Individual {
         res.addAll(tmp);
         res.addAll(remaining.subList(start, remaining.size()));
 
-        if (res.size() != parent1.size()) {
-            res.add(res.getFirst());
-        }
         return res;
     }
 
     public void mutate() {
         Random rand = new Random();
-        int geneA = rand.nextInt(1, this.order.size() - 2);
-        int geneB = rand.nextInt(1, this.order.size() - 2);
+        int geneA = rand.nextInt(1, order.size() - 2);
+        int geneB = rand.nextInt(1, order.size() - 2);
         while (geneA == geneB) {
-            geneB = rand.nextInt(1, this.order.size() - 2);
+            geneB = rand.nextInt(1, order.size() - 2);
         }
         if (geneA > geneB) {
             int tmp = geneA;
             geneA = geneB;
             geneB = tmp;
         }
-        var tmp = this.order.get(geneA);
-        this.order.set(geneA, this.order.get(geneB));
-        this.order.set(geneB, tmp);
-        this.distance = this.calDistance();
+        Collections.swap(order, geneA, geneB);
+        distance = calDistance();
     }
 
     public static ArrayList<ArrayList<Integer>> greedyOrder(ArrayList<ArrayList<Integer>> points, int start) {
@@ -105,11 +102,11 @@ public class Individual {
     }
 
     public ArrayList<ArrayList<Integer>> getOrder() {
-        return this.order;
+        return order;
     }
 
     public double getDistance() {
-        return this.distance;
+        return distance;
     }
 
     public void copy(Individual x) {
