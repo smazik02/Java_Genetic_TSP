@@ -68,10 +68,10 @@ public class Individual {
 
     public void mutate() {
         Random rand = new Random();
-        int geneA = rand.nextInt(1, order.size() - 2);
-        int geneB = rand.nextInt(1, order.size() - 2);
+        int geneA = rand.nextInt(1, order.size() - 1);
+        int geneB = rand.nextInt(1, order.size() - 1);
         while (geneA == geneB) {
-            geneB = rand.nextInt(1, order.size() - 2);
+            geneB = rand.nextInt(1, order.size() - 1);
         }
         if (geneA > geneB) {
             int tmp = geneA;
